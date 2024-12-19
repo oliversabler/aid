@@ -9,25 +9,25 @@ var terminalCategories = []internal.Category{
 	{
 		Name: "Movement",
 		Commands: []internal.Command{
-			internal.Command{Keys: "Ctrl + A", Description: "Move cursor to the start of the line"},
-			internal.Command{Keys: "Ctrl + E", Description: "Move cursor to the end of the line"},
+			{Keys: "Ctrl + A", Description: "Move cursor to the start of the line"},
+			{Keys: "Ctrl + E", Description: "Move cursor to the end of the line"},
 		},
 	},
 	{
 		Name: "Deletion",
 		Commands: []internal.Command{
-			internal.Command{Keys: "Ctrl + L", Description: "Clear screen"},
-			internal.Command{Keys: "Ctrl + U", Description: "Erase the whole line"},
-			internal.Command{Keys: "Ctrl + K", Description: "Erase from cursor to the end of the line"},
-			internal.Command{Keys: "Ctrl + W", Description: "Erase the word before the cursor position"},
+			{Keys: "Ctrl + L", Description: "Clear screen"},
+			{Keys: "Ctrl + U", Description: "Erase the whole line"},
+			{Keys: "Ctrl + K", Description: "Erase from cursor to the end of the line"},
+			{Keys: "Ctrl + W", Description: "Erase the word before the cursor position"},
 		},
 	},
 	{
 		Name: "Commands",
 		Commands: []internal.Command{
-			internal.Command{Keys: "Ctrl + P", Description: "Go to previous command"},
-			internal.Command{Keys: "Ctrl + R", Description: "Search for a command in history"},
-			internal.Command{Keys: "!!      ", Description: "Repeat last command"},
+			{Keys: "Ctrl + P", Description: "Go to previous command"},
+			{Keys: "Ctrl + R", Description: "Search for a command in history"},
+			{Keys: "!!      ", Description: "Repeat last command"},
 		},
 	},
 }
