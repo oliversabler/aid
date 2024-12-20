@@ -7,6 +7,7 @@ import (
 
 var tmuxCategories = []internal.Category{
 	{
+		ID:   "windows",
 		Name: "Windows",
 		Commands: []internal.Command{
 			{Keys: "Ctrl + b c", Description: "Create new window"},
@@ -20,6 +21,7 @@ var tmuxCategories = []internal.Category{
 		},
 	},
 	{
+		ID:   "panes",
 		Name: "Panes",
 		Commands: []internal.Command{
 			{Keys: "Ctrl + b %", Description: "Create new pane with vertical line"},
@@ -40,10 +42,27 @@ var tmuxCmd = &cobra.Command{
 	Short: "List tmux cmds",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		internal.PrintCategories(tmuxCategories)
+		listCategoryIDs, _ := cmd.Flags().GetBool("list-category-ids")
+		if listCategoryIDs {
+			categoryIDs := internal.GetCategoryIDs(tmuxCategories)
+			internal.PrintCategoryIDs(categoryIDs)
+		} else {
+			category, _ := cmd.Flags().GetString("category")
+
+			if category != "" {
+				category := internal.GetCategoryCommands(tmuxCategories, category)
+				internal.PrintCategory(category)
+			} else {
+				internal.PrintCategories(tmuxCategories)
+			}
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(tmuxCmd)
+
+	var lc bool
+	tmuxCmd.PersistentFlags().BoolVarP(&lc, "list-category-ids", "l", false, "List all category ids")
+	tmuxCmd.PersistentFlags().StringP("category", "c", "", "List commands in a specific category")
 }

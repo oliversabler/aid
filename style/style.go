@@ -6,6 +6,10 @@ var Category = lipgloss.NewStyle().
 	Bold(true).
 	Underline(true)
 
+var CategoryIDs = lipgloss.NewStyle().
+	Bold(true).
+	Foreground(lipgloss.Color("#33ffb5"))
+
 var Command = lipgloss.NewStyle().
 	Bold(true).
 	Foreground(lipgloss.Color("#f4ebba")).

@@ -7,6 +7,7 @@ import (
 
 var terminalCategories = []internal.Category{
 	{
+		ID:   "movement",
 		Name: "Movement",
 		Commands: []internal.Command{
 			{Keys: "Ctrl + A", Description: "Move cursor to the start of the line"},
@@ -14,6 +15,7 @@ var terminalCategories = []internal.Category{
 		},
 	},
 	{
+		ID:   "deletion",
 		Name: "Deletion",
 		Commands: []internal.Command{
 			{Keys: "Ctrl + L", Description: "Clear screen"},
@@ -23,6 +25,7 @@ var terminalCategories = []internal.Category{
 		},
 	},
 	{
+		ID:   "commands",
 		Name: "Commands",
 		Commands: []internal.Command{
 			{Keys: "Ctrl + P", Description: "Go to previous command"},
@@ -34,13 +37,30 @@ var terminalCategories = []internal.Category{
 
 var terminalCmd = &cobra.Command{
 	Use:   "terminal",
-	Short: "list terminal cmds",
+	Short: "List terminal cmds",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		internal.PrintCategories(terminalCategories)
+		listCategoryIDs, _ := cmd.Flags().GetBool("list-category-ids")
+		if listCategoryIDs {
+			categoryIDs := internal.GetCategoryIDs(terminalCategories)
+			internal.PrintCategoryIDs(categoryIDs)
+		} else {
+			category, _ := cmd.Flags().GetString("category")
+
+			if category != "" {
+				category := internal.GetCategoryCommands(terminalCategories, category)
+				internal.PrintCategory(category)
+			} else {
+				internal.PrintCategories(terminalCategories)
+			}
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(terminalCmd)
+
+	var lc bool
+	terminalCmd.PersistentFlags().BoolVarP(&lc, "list-category-ids", "l", false, "List all category ids")
+	terminalCmd.PersistentFlags().StringP("category", "c", "", "List commands in a specific category")
 }

@@ -7,6 +7,7 @@ import (
 
 var vimCategories = []internal.Category{
 	{
+		ID:   "movement",
 		Name: "Movement",
 		Commands: []internal.Command{
 			{Keys: "}", Description: "Jump to next paragraph, function or block"},
@@ -15,6 +16,7 @@ var vimCategories = []internal.Category{
 		},
 	},
 	{
+		ID:   "marking",
 		Name: "Marking text (visual mode)",
 		Commands: []internal.Command{
 			{Keys: "aw", Description: "Mark a word"},
@@ -27,6 +29,7 @@ var vimCategories = []internal.Category{
 		},
 	},
 	{
+		ID:   "custom",
 		Name: "Custom (visual mode)",
 		Commands: []internal.Command{
 			{Keys: "ctrl + k", Description: "Move current line up one line"},
@@ -40,10 +43,27 @@ var vimCmd = &cobra.Command{
 	Short: "List vim cmds",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		internal.PrintCategories(vimCategories)
+		listCategoryIDs, _ := cmd.Flags().GetBool("list-category-ids")
+		if listCategoryIDs {
+			categoryIDs := internal.GetCategoryIDs(vimCategories)
+			internal.PrintCategoryIDs(categoryIDs)
+		} else {
+			category, _ := cmd.Flags().GetString("category")
+
+			if category != "" {
+				category := internal.GetCategoryCommands(vimCategories, category)
+				internal.PrintCategory(category)
+			} else {
+				internal.PrintCategories(vimCategories)
+			}
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(vimCmd)
+
+	var lc bool
+	vimCmd.PersistentFlags().BoolVarP(&lc, "list-category-ids", "l", false, "List all category ids")
+	vimCmd.PersistentFlags().StringP("category", "c", "", "List commands in a specific category")
 }
