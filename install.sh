@@ -1,5 +1,8 @@
 #!bin/bash/
 
+APP_TARGET_DIR="${HOME}/.go_cli"
+PROFILE="${HOME}/.zprofile"
+
 if ! go version 2>&1 > /dev/null; then
     echo "Go is required to build this application"
     echo "exiting..."
@@ -8,15 +11,14 @@ fi
 
 go build -o aid
 
-application_dir="${HOME}/.go_cli"
-if [ ! -d $application_dir ]; then
-    echo "Application directory '$application_dir' did not exist"
-    echo "Creating directory '$application_dir'"
-    mkdir $application_dir
+if [ ! -d $APP_TARGET_DIR ]; then
+    echo "Application directory '$APP_TARGET_DIR' did not exist"
+    echo "Creating directory '$APP_TARGET_DIR'"
+    mkdir $APP_TARGET_DIR
 fi
 
-mv ./aid $application_dir
+mv ./aid $APP_TARGET_DIR
 
-echo "alias aid=$application_dir/aid" >> ~/.zprofile
+echo "alias aid=$APP_TARGET_DIR/aid" >> $PROFILE
 
-source "${HOME}/.zprofile"
+source $PROFILE
