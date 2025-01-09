@@ -1,7 +1,7 @@
 # Aid
 
 ## What is this?
-This is a minimal sheet cheat CLI tool, containing commands I want to learn or commands I tend to forget.
+This is a minimal cheat sheet CLI tool, containing commands I want to learn or commands I tend to forget.
 
 ## Usage
 ```sh
