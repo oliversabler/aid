@@ -36,6 +36,16 @@ var vimCategories = []internal.Category{
 			{Keys: "ctrl + j", Description: "Move current line down one line"},
 		},
 	},
+	{
+		ID:   "minifiles",
+		Name: "Plugin (mini files)",
+		Commands: []internal.Command{
+			{Keys: "space + e", Description: "Open file tree"},
+			{Keys: "@", Description: "Reveal Change Working Directory (cwd)"},
+			{Keys: "<", Description: "Trim windows to the left"},
+			{Keys: ">", Description: "Trim windows to the right"},
+		},
+	},
 }
 
 var vimCmd = &cobra.Command{
