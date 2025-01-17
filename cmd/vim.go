@@ -37,13 +37,13 @@ var vimCategories = []internal.Category{
 		},
 	},
 	{
-		ID:   "minifiles",
-		Name: "Plugin (mini files)",
+		ID:   "oil",
+		Name: "Plugin (oil)",
 		Commands: []internal.Command{
-			{Keys: "space + e", Description: "Open file tree"},
-			{Keys: "@", Description: "Reveal Change Working Directory (cwd)"},
-			{Keys: "<", Description: "Trim windows to the left"},
-			{Keys: ">", Description: "Trim windows to the right"},
+			{Keys: "-", Description: "Open parent directory"},
+			{Keys: "ctrl + p", Description: "Open file preview"},
+			{Keys: "gs", Description: "Change sorting"},
+			{Keys: "gx", Description: "Open external"},
 		},
 	},
 }
