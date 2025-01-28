@@ -1,4 +1,6 @@
 #!bin/bash/
+# optional flag "addAlias" to add alias to your .zprofile
+# . ./install.sh [addAlias]
 
 APP_TARGET_DIR="${HOME}/.go_cli"
 PROFILE="${HOME}/.zprofile"
@@ -19,6 +21,8 @@ fi
 
 mv ./aid $APP_TARGET_DIR
 
-echo "alias aid=$APP_TARGET_DIR/aid" >> $PROFILE
+if [ "$1" == "addAlias" ]; then
+    echo "alias aid=$APP_TARGET_DIR/aid" >> $PROFILE
+    source $PROFILE
+fi
 
-source $PROFILE
