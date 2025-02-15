@@ -13,7 +13,7 @@ var CategoryIDs = lipgloss.NewStyle().
 var Command = lipgloss.NewStyle().
 	Bold(true).
 	Foreground(lipgloss.Color("#f4ebba")).
-	Width(16)
+	PaddingRight(2)
 
 var Description = lipgloss.NewStyle().
 	Foreground(lipgloss.Color("#bad2f4"))
