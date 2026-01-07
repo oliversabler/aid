@@ -1,25 +1,62 @@
 # Aid
 
-## What is this?
-This is a minimal cheat sheet CLI tool, containing commands I want to learn or commands I tend to forget.
+An LLM-powered terminal assistant that helps you understand shell commands and learn how to perform tasks.
 
-## Usage
+## Prerequisites
+
+- [Go](https://go.dev/dl/)
+- [Ollama](https://ollama.com/) with a model installed, e.g. [mistral:7b](https://ollama.com/library/mistral:7b)
+
 ```sh
-aid [command] [flags]
+ollama pull mistral:7b
+```
+
+### Shell configuration
+
+By default, zsh only writes to history when the session closes. For `aid -p` to work with recent commands, add to your `~/.zshrc`:
+
+```sh
+setopt INC_APPEND_HISTORY
+```
+
+For bash, add to your `~/.bashrc`:
+
+```sh
+shopt -s histappend
+PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 ```
 
 ## Installation
-The install.sh script is tailored to my development environment.
 
 ```sh
-# Run install script
-. ./install.sh
+./install.sh
+source ~/.zprofile
 ```
 
-What it does:
-1. Builds application from source
-2. Creates the directory "~/.go_cli" if it does not already exist
-3. Moves the `aid` binary to directory ~./go_cli/
-4. Adds an `aid` alias to the .zprofile
+## Configuration
 
-Don't forget to source your .zprofile after alias has been added.
+Create a config file:
+
+```sh
+aid --init
+```
+
+Or manually create `~/.config/aid/config.toml`:
+
+```toml
+[api]
+endpoint = "http://localhost:11434/v1/chat/completions"
+model = "mistral:7b"
+```
+
+## Usage
+
+```sh
+# Analyze the previous shell command (what went wrong, how to fix it)
+aid -p
+aid --previous
+
+# Ask how to do something
+aid -q "find all .go files larger than 1MB"
+aid --question "list files by size"
+```
