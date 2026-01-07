@@ -7,9 +7,8 @@ import (
 )
 
 var (
-	initFlag     bool
-	previousFlag bool
-	questionStr  string
+	initFlag    bool
+	questionStr string
 )
 
 var rootCmd = &cobra.Command{
@@ -19,7 +18,6 @@ var rootCmd = &cobra.Command{
 
 Examples:
   aid --init                  Create config file at ~/.config/aid/config.toml
-  aid -p                      Explain the previous command and what went wrong
   aid -q "list files"         Get help on how to accomplish a task`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if initFlag {
@@ -27,7 +25,7 @@ Examples:
 			return
 		}
 
-		if !previousFlag && questionStr == "" {
+		if questionStr == "" {
 			cmd.Help()
 			return
 		}
@@ -39,31 +37,8 @@ Examples:
 		}
 
 		client := NewLLMClient(cfg)
-
-		if previousFlag {
-			runPrevious(client)
-		} else if questionStr != "" {
-			runQuestion(client, questionStr)
-		}
+		runQuestion(client, questionStr)
 	},
-}
-
-func runPrevious(client *LLMClient) {
-	prevCmd, err := GetPreviousCommand()
-	if err != nil {
-		PrintError(err.Error())
-		os.Exit(1)
-	}
-
-	PrintInfo("Analyzing: " + prevCmd)
-
-	response, err := client.AnalyzePreviousCommand(prevCmd)
-	if err != nil {
-		PrintError(err.Error())
-		os.Exit(1)
-	}
-
-	PrintResponse(response)
 }
 
 func runQuestion(client *LLMClient, q string) {
@@ -94,6 +69,5 @@ func Execute() {
 
 func init() {
 	rootCmd.Flags().BoolVar(&initFlag, "init", false, "Create config file")
-	rootCmd.Flags().BoolVarP(&previousFlag, "previous", "p", false, "Analyze the previous shell command")
 	rootCmd.Flags().StringVarP(&questionStr, "question", "q", "", "Ask how to do something")
 }

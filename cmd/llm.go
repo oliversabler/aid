@@ -100,15 +100,6 @@ func (c *LLMClient) chat(systemPrompt, userMessage string) (string, error) {
 	return chatResp.Choices[0].Message.Content, nil
 }
 
-const prevSystemPrompt = `You are a concise terminal assistant. The user will provide a shell command that likely failed or produced unexpected results.
-
-Your task:
-1. Analyze what might have gone wrong
-2. Explain the issue in 1-2 sentences maximum
-3. If applicable, provide the corrected command
-
-Keep your response extremely brief. No introductions or pleasantries. Focus only on the problem and solution.`
-
 const questionSystemPrompt = `You are a concise terminal assistant. The user will ask how to accomplish a task using the command line.
 
 Your task:
@@ -116,10 +107,6 @@ Your task:
 2. Add a brief explanation only if the command is complex
 
 Keep your response to 1-3 lines maximum. No introductions or pleasantries. Just the command and minimal explanation.`
-
-func (c *LLMClient) AnalyzePreviousCommand(command string) (string, error) {
-	return c.chat(prevSystemPrompt, "The previous command was:\n"+command)
-}
 
 func (c *LLMClient) Question(q string) (string, error) {
 	return c.chat(questionSystemPrompt, q)
